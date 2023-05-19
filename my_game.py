@@ -1,10 +1,12 @@
 import pygame
-from screen import load_window
+from screen import window_dict, load_window
 from ball import bouncing_ball, create_ball_obj
 from bars import bar, create_bar_obj
+from level_control import increase_game_speed
 
 game_dict = {
-    "running": True
+    "running": True,
+    "speed_time_increase": 30000
 }
 
 def main():
@@ -23,6 +25,12 @@ def main():
         bouncing_ball(screen, ball, bar_rect_left, bar_rect_right)
         bar(screen, bar_rect_left, side="left")
         bar(screen, bar_rect_right, side="rigth")
+
+        current_time = pygame.time.get_ticks()
+        if current_time >= game_dict["speed_time_increase"]:
+            increase_game_speed()
+            game_dict['speed_time_increase'] += 30000
+            pygame.display.set_caption(f'{window_dict["caption"]} - Level {window_dict["level_indicator"]}')
 
         pygame.display.flip()
 
