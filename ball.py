@@ -46,3 +46,6 @@ def bouncing_ball(screen, ball, bar_left, bar_right):
             ball_dict["ball_x_speed"] = -ball_dict["ball_x_speed"]
 
     pygame.draw.rect(screen, "white", ball, border_radius=ball_dict["ball_radius"])
+
+def create_ball_obj():
+    return pygame.Rect(ball_dict["left"], ball_dict["top"], ball_dict["width"], ball_dict["heigth"])
