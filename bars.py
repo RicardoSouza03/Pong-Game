@@ -26,3 +26,9 @@ def bar(screen, bar_rect, side="right"):
             bar_rect.y += rect_speed
 
     pygame.draw.rect(screen, "white", bar_rect, 20)
+
+def create_bar_obj(side='rigth'):
+    if side == 'left':
+        return pygame.Rect(bar_dict["l_left"], bar_dict["top"], bar_dict["width"], bar_dict["heigth"])
+    else:
+        return pygame.Rect(bar_dict["r_left"], bar_dict["top"], bar_dict["width"], bar_dict["heigth"])
