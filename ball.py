@@ -1,51 +1,64 @@
 import pygame
 
-ball_dict = {
-    "ball_x_speed": 5,
-    "ball_y_speed": 3,
-    "collision_tolerance": 10,
-    "ball_radius": 50,
-    "left": 250,
-    "top": 250,
-    "width": 25,
-    "heigth": 25,
-}
+class Ball():
+    def __init__(self) -> None:
+        self.x_speed = 5
+        self.y_speed = 3
+        self.collision_tolerance = 10
+        self.radius = 50
+        self.left = 250
+        self.top = 250
+        self.width = 25
+        self.heigth = 25
+        self.ball_obj()
 
-def bouncing_ball(screen, ball, bar_left, bar_right):
-    ball.y += ball_dict["ball_y_speed"]
-    ball.x += ball_dict["ball_x_speed"]
-    collision_tolerance = ball_dict["collision_tolerance"]
+    def ball_obj(self):
+        self.ball = pygame.Rect(self.left, self.top, self.width, self.heigth)
 
-    if ball.right > screen.get_width() + 20 or ball.left <= -20:
-        screen.quit()
-    if ball.bottom >= screen.get_height() or ball.top <= 0:
-        ball_dict["ball_y_speed"] = -ball_dict["ball_y_speed"]
-
-    if ball.colliderect(bar_left):
-        if (
-            abs(bar_left.top - ball.bottom) < collision_tolerance
-            or abs(bar_left.bottom - ball.top) < collision_tolerance
-            ) and ball_dict["ball_y_speed"] > 0:
-            ball_dict["ball_y_speed"] = -ball_dict["ball_y_speed"]
-        if (
-            abs(bar_left.right - ball.left) < collision_tolerance
-            or abs(bar_left.left - ball.right) < collision_tolerance
-            ) and ball_dict["ball_x_speed"] < 0:
-            ball_dict["ball_x_speed"] = -ball_dict["ball_x_speed"]
+    def ball_collidion(self, bars):
+        if self.ball.colliderect(bars[0]):
+            if (
+                abs(bars[0].top - self.ball.bottom) < self.collision_tolerance
+                or abs(bars[0].bottom - self.ball.top) < self.collision_tolerance
+                ) and self.y_speed > 0:
+                self.y_speed = -self.y_speed
+            if (
+                abs(bars[0].right - self.ball.left) < self.collision_tolerance
+                or abs(bars[0].left - self.ball.right) < self.collision_tolerance
+                ) and self.x_speed < 0:
+                self.x_speed = -self.x_speed
         
-    if ball.colliderect(bar_right):
-        if (
-            abs(bar_right.top - ball.bottom) < collision_tolerance
-            or abs(bar_right.bottom - ball.top) < collision_tolerance
-            ) and ball_dict["ball_y_speed"] < 0:
-            ball_dict["ball_y_speed"] = -ball_dict["ball_y_speed"]
-        if (
-            abs(bar_right.right - ball.left) < collision_tolerance
-            or abs(bar_right.left - ball.right) < collision_tolerance
-            ) and ball_dict["ball_x_speed"] > 0:
-            ball_dict["ball_x_speed"] = -ball_dict["ball_x_speed"]
+        if self.ball.colliderect(bars[1]):
+            if (
+                abs(bars[1].top - self.ball.bottom) < self.collision_tolerance
+                or abs(bars[1].bottom - self.ball.top) < self.collision_tolerance
+                ) and self.y_speed < 0:
+                self.y_speed = -self.y_speed
+            if (
+                abs(bars[1].right - self.ball.left) < self.collision_tolerance
+                or abs(bars[1].left - self.ball.right) < self.collision_tolerance
+                ) and self.x_speed > 0:
+                self.x_speed = -self.x_speed
 
-    pygame.draw.rect(screen, "white", ball, border_radius=ball_dict["ball_radius"])
+    def draw_bounce_ball(self, screen, bar_left, bar_right):
+        self.ball.x += self.x_speed
+        self.ball.y += self.y_speed
 
-def create_ball_obj():
-    return pygame.Rect(ball_dict["left"], ball_dict["top"], ball_dict["width"], ball_dict["heigth"])
+        if self.ball.right > screen.get_width() + 20 or self.ball.left <= -20:
+            screen.quit()
+        if self.ball.bottom >= screen.get_height() or self.ball.top <= 0:
+            self.y_speed = -self.y_speed
+
+        self.ball_collidion([bar_left, bar_right])
+
+        return pygame.draw.rect(screen, "white", self.ball, border_radius=self.radius)
+    
+    def increase_speed(self):
+        if self.x_speed < 0:
+            self.x_speed += -1
+        else:
+            self.x_speed += 1
+        if self.y_speed < 0:
+            self.y_speed += -2
+        else:
+            self.y_speed += 2
