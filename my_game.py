@@ -15,6 +15,12 @@ def draw_text(screen, text, font, text_color, pos_x, pos_y):
     img = font.render(text, True, text_color)
     screen.blit(img, (pos_x, pos_y))
 
+def pause_game():
+    key = pygame.key.get_pressed()
+
+    if key[pygame.K_ESCAPE] and game_dict['paused'] == False:
+        game_dict['paused'] = True
+
 def main():
     screen = load_window()
     font = pygame.font.SysFont('arialblack', 40)
@@ -34,19 +40,26 @@ def main():
             if event.type == pygame.QUIT:
                 game_dict['running'] = False
 
-        screen.fill("black")
-        bouncing_ball(screen, ball, bar_rect_left, bar_rect_right)
-        bar(screen, bar_rect_left, side="left")
-        bar(screen, bar_rect_right, side="rigth")
+        if game_dict['paused'] == False:
+            screen.fill("black")
+            bouncing_ball(screen, ball, bar_rect_left, bar_rect_right)
+            bar(screen, bar_rect_left, side="left")
+            bar(screen, bar_rect_right, side="rigth")
+            pause_game()
 
-        current_time = pygame.time.get_ticks()
-        if current_time >= game_dict["speed_time_increase"]:
-            increase_game_speed()
-            game_dict['speed_time_increase'] += 30000
-            pygame.display.set_caption(f'{window_dict["caption"]} - Level {window_dict["level_indicator"]}')
+            current_time = pygame.time.get_ticks()
+            if current_time >= game_dict["speed_time_increase"]:
+                increase_game_speed()
+                game_dict['speed_time_increase'] += 30000
+                pygame.display.set_caption(f'{window_dict["caption"]} - Level {window_dict["level_indicator"]}')
 
-        if window_dict['level_indicator'] == 10:
-            draw_text(screen, 'You won!', font, 'green', 300, 200)
+            if window_dict['level_indicator'] == 10:
+                draw_text(screen, 'You won!', font, 'green', 300, 200)
+        else:
+            if unpause_btn.draw(screen):
+                game_dict['paused'] = False
+            if quit_btn.draw(screen):
+                game_dict['running'] = False
 
         pygame.display.flip()
         pygame.display.update()
