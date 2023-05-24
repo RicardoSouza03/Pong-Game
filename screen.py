@@ -3,7 +3,7 @@ import pygame
 window_dict = {
     "width": 800,
     "heigth": 500,
-    "icon": "icon.png",
+    "icon": "images/icon.png",
     "caption": "pong game",
     "level_indicator": 0
 }
