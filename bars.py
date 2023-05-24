@@ -1,34 +1,38 @@
 import pygame
 from screen import window_dict
 
-bar_dict = {
-    "rect_speed": 8,
-    "l_left": 5,
-    "r_left": window_dict["width"] - 15,
-    "top": 200,
-    "width": 10,
-    "heigth": 80,
-}
+class Bar():
+    def __init__(self, side) -> None:
+        self.side = side
+        self.speed = 6
+        self.top = 200
+        self.width = 10
+        self.heigth = 80
+        self.bar_obj()
 
-def bar(screen, bar_rect, side="right"):
-    rect_speed = bar_dict["rect_speed"]
-    key = pygame.key.get_pressed()
+    def bar_obj(self):
+        if self.side == 'left':
+            self.left = 5
+            self.rect = pygame.Rect(self.left, self.top, self.width, self.heigth)
+        else:
+            self.left = window_dict['width'] - 15
+            self.rect = pygame.Rect(self.left, self.top, self.width, self.heigth)
 
-    if side == "left":
-        if key[pygame.K_w] and bar_rect.y>0:
-            bar_rect.y -= rect_speed
-        if key[pygame.K_s] and bar_rect.y<screen.get_height()-80:
-            bar_rect.y += rect_speed
-    else:
-        if key[pygame.K_UP] and bar_rect.y>0:
-            bar_rect.y -= rect_speed
-        if key[pygame.K_DOWN] and bar_rect.y<screen.get_height()-80:
-            bar_rect.y += rect_speed
+    def draw(self, screen):
+        key = pygame.key.get_pressed()
 
-    pygame.draw.rect(screen, "white", bar_rect, 20)
+        if self.side == "left":
+            if key[pygame.K_w] and self.rect.y>0:
+                self.rect.y -= self.speed
+            if key[pygame.K_s] and self.rect.y<screen.get_height()-80:
+                self.rect.y += self.speed
+        else:
+            if key[pygame.K_UP] and self.rect.y>0:
+                self.rect.y -= self.speed
+            if key[pygame.K_DOWN] and self.rect.y<screen.get_height()-80:
+                self.rect.y += self.speed
 
-def create_bar_obj(side='rigth'):
-    if side == 'left':
-        return pygame.Rect(bar_dict["l_left"], bar_dict["top"], bar_dict["width"], bar_dict["heigth"])
-    else:
-        return pygame.Rect(bar_dict["r_left"], bar_dict["top"], bar_dict["width"], bar_dict["heigth"])
+        return pygame.draw.rect(screen, "white", self.rect, 20)
+    
+    def increase_speed(self):
+        self.speed += 1
