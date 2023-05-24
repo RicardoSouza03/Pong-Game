@@ -59,6 +59,6 @@ class Ball():
         else:
             self.x_speed += 1
         if self.y_speed < 0:
-            self.y_speed += -2
+            self.y_speed += -1
         else:
-            self.y_speed += 2
+            self.y_speed += 1
