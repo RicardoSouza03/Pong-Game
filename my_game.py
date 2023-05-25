@@ -4,6 +4,7 @@ from ball import Ball
 from bars import Bar
 from level_control import increase_game_speed
 from button import Button
+import time
 
 class Game():
     def __init__(self) -> None:
@@ -31,6 +32,15 @@ class Game():
     def create_images(self):
         self.unpause_img = pygame.image.load('images/button_resume.png').convert_alpha()
         self.quit_img = pygame.image.load('images/button_quit.png').convert_alpha()
+        self.gameover_img = pygame.image.load('images/gameover.png').convert_alpha()
+
+    def game_over(self):
+        self.screen.fill('black')
+        gameover_bnt = Button(300, 200, self.gameover_img)
+        gameover_bnt.draw(self.screen)
+        pygame.display.flip()
+        time.sleep(3)
+        self.running = False
 
     def run_game(self):
         self.ball = Ball()
@@ -51,6 +61,9 @@ class Game():
                 self.bar_right.draw(self.screen)
                 self.current_time += 1
                 self.pause_game()
+
+                if self.ball.lost:
+                    self.game_over()
 
                 if self.current_time == self.speed_time_increase:
                     increase_game_speed([self.bar_left, self.bar_right, self.ball])

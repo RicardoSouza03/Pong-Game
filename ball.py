@@ -10,6 +10,7 @@ class Ball():
         self.top = 250
         self.width = 25
         self.heigth = 25
+        self.lost = False
         self.ball_obj()
 
     def ball_obj(self):
@@ -45,7 +46,7 @@ class Ball():
         self.ball.y += self.y_speed
 
         if self.ball.right > screen.get_width() + 20 or self.ball.left <= -20:
-            screen.quit()
+            self.lost = True
         if self.ball.bottom >= screen.get_height() or self.ball.top <= 0:
             self.y_speed = -self.y_speed
 
