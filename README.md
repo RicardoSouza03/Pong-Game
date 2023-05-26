@@ -44,5 +44,7 @@ And last but not least, both screen's: <br/>
 * After that I advise that you create a virtual enviroment with venv and inside this enviroment you can use ```python3 -m pip install -r dev-requirements.txt```
 * And now you can run the file *my_game* and play it.
 
+To control the bars you have to use *W* and *S* to the left bar and *ArrowUp* and *ArrowDown* to the right bar.
+
 #
 > Made by: [Ricardo Souza](https://github.com/RicardoSouza03) - 2023©
