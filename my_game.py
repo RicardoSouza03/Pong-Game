@@ -33,6 +33,7 @@ class Game():
         self.unpause_img = pygame.image.load('images/button_resume.png').convert_alpha()
         self.quit_img = pygame.image.load('images/button_quit.png').convert_alpha()
         self.gameover_img = pygame.image.load('images/gameover.png').convert_alpha()
+        self.you_win_img = pygame.image.load('images/you_win.png').convert_alpha()
 
     def game_over(self):
         self.screen.fill('black')
@@ -40,6 +41,15 @@ class Game():
         gameover_bnt.draw(self.screen)
         pygame.display.flip()
         time.sleep(3)
+        self.running = False
+
+    def game_won(self):
+        self.screen.fill('white')
+        resized_win_img = pygame.transform.scale(self.you_win_img, (200, 100))
+        gameover_bnt = Button(300, 180, resized_win_img)
+        gameover_bnt.draw(self.screen)
+        pygame.display.flip()
+        time.sleep(8)
         self.running = False
 
     def run_game(self):
@@ -71,7 +81,8 @@ class Game():
                     pygame.display.set_caption(f'{window_dict["caption"]} - Level {window_dict["level_indicator"]}')
 
                 if window_dict['level_indicator'] == 10:
-                    self.draw_text(self.screen, 'You won!', self.font, 'green', 300, 200)
+                    self.game_won()
+
 
             elif self.paused == True:
                 if self.unpause_btn.draw(self.screen):
